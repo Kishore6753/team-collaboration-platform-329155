@@ -151,6 +151,11 @@ echo ""
 echo "Environment variables saved to db_visualizer/postgres.env"
 echo "To use with Node.js viewer, run: source db_visualizer/postgres.env"
 
+# Run deterministic migrations (seed disabled by default).
+# To enable seed: RUN_SEED=true ./startup.sh (or export RUN_SEED=true)
+echo "Running migrations..."
+RUN_SEED="${RUN_SEED:-false}" MIGRATIONS_DIR="${MIGRATIONS_DIR:-./migrations/sql}" SEED_FILE="${SEED_FILE:-./migrations/seed.sql}" ./migrations/run_migrations.sh
+
 echo "To connect to the database, use one of the following commands:"
 echo "psql -h localhost -U ${DB_USER} -d ${DB_NAME} -p ${DB_PORT}"
 echo "$(cat db_connection.txt)"
